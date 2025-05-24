@@ -2,8 +2,8 @@ function FindProxyForURL(url, host) {
     // Intranet domains (bypass proxy so it goes through VPN)
     if (isPlainHostName(host) ||
         shExpMatch(host, "*.corp.local") ||
-        shExpMatch(host, "*.internal.company.com") ||
-        shExpMatch(host, "intranet.company.com")) {
+        shExpMatch(host, "*.reliancecapital.com") ||
+        shExpMatch(host, "prakriya.reliancecapital.com")) {
         return "DIRECT";
     }
 
