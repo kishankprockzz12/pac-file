@@ -8,7 +8,7 @@ function FindProxyForURL(url, host) {
     // Bypass known internal domains (optional)
     if (isPlainHostName(host) ||
         shExpMatch(host, "*.reliancecapital.com") ||
-        shExpMatch(host, "*.intranet.company.com")) {
+        shExpMatch(host, "prakriya.reliancecapital.com")) {
         return "DIRECT";
     }
 
