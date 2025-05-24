@@ -1,24 +1,12 @@
 function FindProxyForURL(url, host) {
-    if (isPlainHostName(host)) {
+    // Intranet domains (bypass proxy so it goes through VPN)
+    if (isPlainHostName(host) ||
+        shExpMatch(host, "*.corp.local") ||
+        shExpMatch(host, "*.internal.company.com") ||
+        shExpMatch(host, "intranet.company.com")) {
         return "DIRECT";
     }
 
-    if (shExpMatch(host, "*.google.com") ||
-        shExpMatch(host, "*.apple.com") ||
-        shExpMatch(host, "*.icloud.com")) {
-        return "DIRECT";
-    }
-
-    var zscalerHosts = /^(trust|ips)\.(zscaler|zscalerone|zscloud)\.(com|net)$/;
-    if (zscalerHosts.test(host)) {
-        return "DIRECT";
-    }
-
-    if ((url.substring(0, 5) !== "http:") &&
-        (url.substring(0, 6) !== "https:") &&
-        (url.substring(0, 4) !== "ftp:")) {
-        return "DIRECT";
-    }
-
+    // Everything else (Internet) goes through Zscaler proxy
     return "PROXY 165.225.120.42:80; PROXY 165.225.122.42:80; DIRECT";
 }
