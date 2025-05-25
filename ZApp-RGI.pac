@@ -16,7 +16,7 @@ function FindProxyForURL(url, host) {
         return "DIRECT";
     }
 
-    // === Zscaler Infrastructure - Bypass Proxy (for diagnostics/auth) ===
+    // === Zscaler Infrastructure - Bypass Proxy (keep gateway and login direct, but not ip.zscaler.com) ===
     if (shExpMatch(host, "gateway.zscloud.net") ||
         shExpMatch(host, "admin.zscaler.net") ||
         shExpMatch(host, "login.zscloud.net")) {
@@ -24,5 +24,5 @@ function FindProxyForURL(url, host) {
     }
 
     // === All other traffic - Use Zscaler proxy ===
-    return "PROXY 165.225.120.42:80; PROXY 165.225.122.42:80; DIRECT";
+    return "PROXY 165.225.120.42:80; PROXY 165.225.122.42:80; PROXY 165.225.120.42:9400; PROXY 165.225.122.42:9400; DIRECT";
 }
