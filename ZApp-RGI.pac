@@ -9,7 +9,7 @@ function FindProxyForURL(url, host) {
 
     // Match internal hostnames or domains
     if (isPlainHostName(host) ||
-        shExpMatch(host, "*.corp.local") ||
+        shExpMatch(host, "*.reliancecapital.com") ||
         shExpMatch(host, "*.internal.company.com") ||
         shExpMatch(host, "intranet") ||
         shExpMatch(host, "intranet.company.com")) {
@@ -19,7 +19,6 @@ function FindProxyForURL(url, host) {
     // === Zscaler Infrastructure - Bypass Proxy (for diagnostics/auth) ===
     if (shExpMatch(host, "gateway.zscloud.net") ||
         shExpMatch(host, "ip.zscaler.com") ||
-        shExpMatch(host, "admin.zscaler.net") ||
         shExpMatch(host, "login.zscloud.net")) {
         return "DIRECT";
     }
