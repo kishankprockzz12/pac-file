@@ -1,13 +1,8 @@
 function FindProxyForURL(url, host) {
-    // === Intranet Traffic - Bypass Proxy (go through Citrix VPN) ===
+    // === Intranet Traffic - Bypass Proxy ===
+    var isPrivateIP = /^(10\\.|192\\.168\\.|172\\.(1[6-9]|2[0-9]|3[0-1])\\.)/;
+    if (isPrivateIP.test(host)) return "DIRECT";
 
-    // Match private IP ranges
-    var isPrivateIP = /^(10\.|192\.168\.|172\.(1[6-9]|2[0-9]|3[0-1])\.)/;
-    if (isPrivateIP.test(host)) {
-        return "DIRECT";
-    }
-
-    // Match internal hostnames or domains
     if (isPlainHostName(host) ||
         shExpMatch(host, "*.reliancecapital.com") ||
         shExpMatch(host, "*.internal.company.com") ||
@@ -16,13 +11,12 @@ function FindProxyForURL(url, host) {
         return "DIRECT";
     }
 
-    // === Zscaler Infrastructure - Bypass Proxy (keep gateway and login direct, but not ip.zscaler.com) ===
+    // === Zscaler infra that must be DIRECT (only basic diagnostics like gateway) ===
     if (shExpMatch(host, "gateway.zscloud.net") ||
-        shExpMatch(host, "admin.zscaler.net") ||
-        shExpMatch(host, "login.zscloud.net")) {
+        shExpMatch(host, "admin.zscaler.net")) {
         return "DIRECT";
     }
 
-    // === All other traffic - Use Zscaler proxy ===
-    return "PROXY 165.225.120.42:80; PROXY 165.225.122.42:80; PROXY 165.225.120.42:9400; PROXY 165.225.122.42:9400; DIRECT";
+    // === Everything else — including login.zscloud.net — goes via Zscaler ===
+    return "PROXY 165.225.120.42:80; PROXY 165.225.122.42:80; DIRECT";
 }
