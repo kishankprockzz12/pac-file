@@ -18,7 +18,7 @@ function FindProxyForURL(url, host) {
 
     // === Zscaler Infrastructure - Bypass Proxy (for diagnostics/auth) ===
     if (shExpMatch(host, "gateway.zscloud.net") ||
-        shExpMatch(host, "ip.zscaler.com") ||
+        shExpMatch(host, "admin.zscaler.net") ||
         shExpMatch(host, "login.zscloud.net")) {
         return "DIRECT";
     }
