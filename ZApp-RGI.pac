@@ -36,66 +36,6 @@ function FindProxyForURL(url, host) {
         return "DIRECT";
     }
 
-//	     Bypass Reliance Capital Specific traffic completely from Zscaler
-	 if 	((shExpMatch(host, "tlu.dl.delivery.mp.microsoft.com")) ||
-	     (shExpMatch(host, "sftp.rcap.co.in")) ||
-		 (shExpMatch(host, "*.delve.office.com")) ||
-		 (shExpMatch(host, "*.rclhrssg.com")) ||
-		 (shExpMatch(host, "*.relianceada.com")) ||
-		 (shExpMatch(host, "*.rinfra.com")) ||
-		 (shExpMatch(host, "*.relianceinfo.com")) ||
-		 (shExpMatch(host, "*.ril.com")) ||
-		 (shExpMatch(host, "*.97")) ||
-		 (shExpMatch(host, "reliancecapital.com")) ||
-		 (shExpMatch(host, "reliancecapital.in")) ||
-		 (shExpMatch(host, "*.reliancegeneral.com")) ||
-		 (shExpMatch(host, "*.reliancegeneral.co.in")) ||
-		 (shExpMatch(host, "*.reliancecapital.*")) ||
-		 (shExpMatch(host, "*rclnewjoinee*.*")) ||
-		 (shExpMatch(host, "*.rmocs.com")) ||
-		 (shExpMatch(host, "*citrixapp*")) ||
-		 (shExpMatch(host, "*.dostikadum.com")) ||
-		 (shExpMatch(host, "*.reliancemoney.com")) ||
-		 (shExpMatch(host, "*.reliancemoney.in")) ||
-		 (shExpMatch(host, "rcsintranet.relianceada.com")) ||
-		 (shExpMatch(host, "rmfapp.reliancemf.com")) ||
-		 (shExpMatch(host, "*.reliancecommodities.co.in")) ||
-		 (shExpMatch(host, "*.rsec.co.in")) ||
-		 (shExpMatch(host, "*.rclhrservices.*")) ||
-		 (shExpMatch(host, "*.reliancesharedservices.*")) ||
-		 (shExpMatch(host, "mygoldplan.co.in")) ||
-		 (shExpMatch(host, "*corprights*")) ||
-		 (shExpMatch(host, "webcast.rcap.co.in")) ||
-		 (shExpMatch(host, "eiscr.camsonline.com")) ||
-		 (shExpMatch(host, "*.rgurukool.com")) ||
-		 (shExpMatch(host, "*myworld*")) ||
-		 (shExpMatch(host, "*rcfapptsvr*")) ||
-		 (shExpMatch(host, "*parivartan*")) ||
-		 (shExpMatch(host, "*.reliancelife.*")) ||
-		 (shExpMatch(host, "viking")) ||
-		 (shExpMatch(host, "leadershipblog.relianceada.com")) ||
-		 (shExpMatch(host, "rclpim.reliancecapital.com")) ||
-		 (shExpMatch(host, "continuousit.rcap.co.in")) ||
-		 (shExpMatch(host, "rclconnect.rcap.co.in")) ||
-		 (shExpMatch(host, "rcs-vstrmgmt.rcs.com")) ||
-		 (shExpMatch(host, "*.rcs.com")) ||
-		 (shExpMatch(host, "secure.paytm.in")) ||
-		 (shExpMatch(host, "pguat.paytm.com")) ||
-		 (shExpMatch(host, "gstasp.rcap.co.in")) ||
-		 (shExpMatch(host, "*.iib.gov.in")) ||
-		 (shExpMatch(host, "agencyportal.irdai.gov.in")) ||
-		 (shExpMatch(host, "gcuat.brobotinsurance.com")) ||
-		 (shExpMatch(host, "*.brobotinsurance.com")) ||
-		 (shExpMatch(host, "ukyc.brobotinsurance.com")) ||
-		 (shExpMatch(host, ".brobot.com")) ||
-		 (shExpMatch(host, "tmsbo.pmjay.gov.in")) ||
-		 (shExpMatch(host, "*.tmsbo.pmjay.gov.in")) ||
-		 (shExpMatch(host, "sso.gem.gov.in")) ||
-		 (shExpMatch(host, "ecourts.gov.in")) ||
-		 (shExpMatch(host, "policy.haritaib.com")) ||
-		 (shExpMatch(host, "rarcl.com")) )
-		 {return "DIRECT";}
-
     // === Zscaler infra that must be DIRECT (only basic diagnostics like gateway) ===
     if (shExpMatch(host, "gateway.zscloud.net") ||
         shExpMatch(host, "admin.zscaler.net") ||
@@ -104,9 +44,9 @@ function FindProxyForURL(url, host) {
         shExpMatch(host, "*.zscloud.net") ||
         shExpMatch(host, "*.zscaler.net"))
 {
-        return "PROXY 165.225.120.42:80; PROXY 165.225.122.42:80; PROXY 165.225.120.42:9400; PROXY 165.225.122.42:9400; DIRECT";
+        return "PROXY 165.225.120.42:80; PROXY 165.225.122.42:80; DIRECT";
     }
 
     // === Everything else — including login.zscloud.net — goes via Zscaler ===
-    return "PROXY 165.225.120.42:80; PROXY 165.225.122.42:80; PROXY 165.225.120.42:9400; PROXY 165.225.122.42:9400; DIRECT";
+    return "PROXY 165.225.120.42:80; PROXY 165.225.122.42:80; DIRECT";
 }
