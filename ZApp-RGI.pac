@@ -3,6 +3,12 @@ function FindProxyForURL(url, host) {
     var isPrivateIP = /^(10\\.|192\\.168\\.|172\\.(1[6-9]|2[0-9]|3[0-1])\\.)/;
     if (isPrivateIP.test(host)) return "DIRECT";
 
+    if  ((shExpMatch(host, "sts01*")) ||
+	      (shExpMatch(host, "*.digicert.com*")) ||
+	      (shExpMatch(host, "d32a6ru7mhaq0c.cloudfront.net")) ||
+		  (shExpMatch(host, "*cso01*")) )
+		{return "DIRECT";}
+
     if (isPlainHostName(host) ||
         shExpMatch(host, "*.reliancecapital.com") ||
         shExpMatch(host, "*.internal.company.com") ||
