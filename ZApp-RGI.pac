@@ -3,31 +3,6 @@ function FindProxyForURL(url, host) {
     var isPrivateIP = /^(10\\.|192\\.168\\.|172\\.(1[6-9]|2[0-9]|3[0-1])\\.)/;
     if (isPrivateIP.test(host)) return "DIRECT";
 
-    if  ((shExpMatch(host, "sts01*")) ||
-	      (shExpMatch(host, "*.digicert.com*")) ||
-	      (shExpMatch(host, "d32a6ru7mhaq0c.cloudfront.net")) ||
-		  (shExpMatch(host, "*cso01*")) )
-		{return "DIRECT";}
-
-    if ((url.substring(0,5) != "http:") &&
-                  (url.substring(0,4) != "ftp:") &&
-                  (url.substring(0,6) != "https:"))
-                  return "DIRECT";
-
-    /        ====== Section IV ==== Bypasses for Zscaler ===================================
-
-//        Go direct for queries about Zscaler infrastructure status 
-
-          var trust = /^(trust|ips).(zscaler|zscalerone|zscalertwo|zscalerthree|zscalergov|zscloud).(com|net)$/;
-          if (trust.test(host)) 
-                  return "DIRECT";
-
-//        ====== Section V ==== Bypasses for ZPA ===================================
-		  /* test with ZPA*/
-		  if (isInNet(resolved_ip, "100.64.0.0","255.255.0.0"))
-			  return "DIRECT";
-
-
     if (isPlainHostName(host) ||
         shExpMatch(host, "*.reliancecapital.com") ||
         shExpMatch(host, "*.internal.company.com") ||
