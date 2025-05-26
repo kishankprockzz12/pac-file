@@ -9,6 +9,12 @@ function FindProxyForURL(url, host) {
 		  (shExpMatch(host, "*cso01*")) )
 		{return "DIRECT";}
 
+    if ((url.substring(0,5) != "http:") &&
+                  (url.substring(0,4) != "ftp:") &&
+                  (url.substring(0,6) != "https:"))
+                  return "DIRECT";
+
+
     if (isPlainHostName(host) ||
         shExpMatch(host, "*.reliancecapital.com") ||
         shExpMatch(host, "*.internal.company.com") ||
