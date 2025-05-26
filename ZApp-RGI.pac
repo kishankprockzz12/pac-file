@@ -14,6 +14,9 @@ function FindProxyForURL(url, host) {
                   (url.substring(0,6) != "https:"))
                   return "DIRECT";
 
+var trust = /^(trust|ips).(zscaler|zscalerone|zscalertwo|zscalerthree|zscalergov|zscloud).(com|net)$/;
+          if (trust.test(host)) 
+                  return "DIRECT";
 
     if (isPlainHostName(host) ||
         shExpMatch(host, "*.reliancecapital.com") ||
