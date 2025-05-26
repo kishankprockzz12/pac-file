@@ -80,9 +80,9 @@ function FindProxyForURL(url, host) {
         shExpMatch(host, "*.zscloud.net") ||
         shExpMatch(host, "*.zscaler.net"))
 {
-        return "PROXY 165.225.120.42:80; PROXY 165.225.122.42:80; PROXY 165.225.120.42:9400; PROXY 165.225.122.42:9400; DIRECT";
+        return "PROXY 165.225.120.42:80; PROXY 165.225.122.42:80; DIRECT";
     }
 
     // === Everything else — including login.zscloud.net — goes via Zscaler ===
-    return "PROXY 165.225.120.42:80; PROXY 165.225.122.42:80; PROXY 165.225.120.42:9400; PROXY 165.225.122.42:9400; DIRECT";
+    return "PROXY 165.225.120.42:80; PROXY 165.225.122.42:80; DIRECT";
 }
