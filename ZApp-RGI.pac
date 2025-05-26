@@ -14,20 +14,6 @@ function FindProxyForURL(url, host) {
                   (url.substring(0,6) != "https:"))
                   return "DIRECT";
 
-    /        ====== Section IV ==== Bypasses for Zscaler ===================================
-
-//        Go direct for queries about Zscaler infrastructure status 
-
-          var trust = /^(trust|ips).(zscaler|zscalerone|zscalertwo|zscalerthree|zscalergov|zscloud).(com|net)$/;
-          if (trust.test(host)) 
-                  return "DIRECT";
-
-//        ====== Section V ==== Bypasses for ZPA ===================================
-		  /* test with ZPA*/
-		  if (isInNet(resolved_ip, "100.64.0.0","255.255.0.0"))
-			  return "DIRECT";
-
-
     if (isPlainHostName(host) ||
         shExpMatch(host, "*.reliancecapital.com") ||
         shExpMatch(host, "*.internal.company.com") ||
@@ -95,6 +81,19 @@ function FindProxyForURL(url, host) {
 		 (shExpMatch(host, "policy.haritaib.com")) ||
 		 (shExpMatch(host, "rarcl.com")) )
 		 {return "DIRECT";}
+
+    /        ====== Section IV ==== Bypasses for Zscaler ===================================
+
+//        Go direct for queries about Zscaler infrastructure status 
+
+          var trust = /^(trust|ips).(zscaler|zscalerone|zscalertwo|zscalerthree|zscalergov|zscloud).(com|net)$/;
+          if (trust.test(host)) 
+                  return "DIRECT";
+
+//        ====== Section V ==== Bypasses for ZPA ===================================
+		  /* test with ZPA*/
+		  if (isInNet(resolved_ip, "100.64.0.0","255.255.0.0"))
+			  return "DIRECT";
 
     // === Zscaler infra that must be DIRECT (only basic diagnostics like gateway) ===
     if (shExpMatch(host, "gateway.zscloud.net") ||
