@@ -11,7 +11,7 @@ function FindProxyForURL(url, host) {
 
     // Zscaler diagnostic and auth domains via proxy
     if (shExpMatch(host, "*.zscloud.net") || shExpMatch(host, "*.zscaler.net")) {
-        return "PROXY 165.225.120.42:80; PROXY 165.225.122.42:80";
+        return "PROXY 165.225.120.42:9400; PROXY 165.225.122.42:9400";
     }
 
     // Route all other traffic through Zscaler; block if unauthenticated
