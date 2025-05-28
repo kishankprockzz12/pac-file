@@ -15,5 +15,5 @@ function FindProxyForURL(url, host) {
     }
 
     // Route all other traffic through Zscaler; block if unauthenticated
-    return "PROXY 165.225.120.42:9443; PROXY 165.225.122.42:9443; PROXY 127.0.0.1:9";
+    return "PROXY 165.225.120.42:9400; PROXY 165.225.122.42:9400; PROXY 127.0.0.1:9";
 }
