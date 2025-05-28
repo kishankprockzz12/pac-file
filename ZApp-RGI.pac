@@ -1,45 +1,15 @@
-
 function FindProxyForURL(url, host) {
+    // === Intranet Traffic - Bypass Proxy ===
+    var isPrivateIP = /^(10\\.|192\\.168\\.|172\\.(1[6-9]|2[0-9]|3[0-1])\\.)/;
+    if (isPrivateIP.test(host)) return "DIRECT";
 
-//        ZAPP RGI PAC Version-2 file created on 26th January 2019
-
-//        ****************************************************************************
-//        This is an example PAC file that should be edited prior to being put to use.
-//        ****************************************************************************
-        
-//        Consider the following:
-//         - Keep production PAC files small. Delete all comments if possible
-//         - Delete any examples or sections that do not fit your needs
-//         - Consolidate bypass criteria into fewer if() statements if possible
-//         - Be sure you are bypassing only traffic that *must* be bypassed
-//         - Be sure to not perform any DNS resolution in the PAC
-//         - Zscaler recommends sending bypassed internet traffic via on-premise proxy compared
-//           to the internet directly
-
-//        ====== Section I ==== Internal/Specific Destinations ============================== 
-
-//        Most special use IPv4 addresses (RFC 5735) defined within this regex.
-         var privateIP = /^(0|10|127|192.168|172.1[6789]|172.2[0-9]|172.3[01]|169.254|192.88.99)\.[0-9.]+$/;
-		  var resolved_ip = dnsResolve(host);
-
-//        If host specified is IP address, and it is private, send direct.
-         if (privateIP.test(host))
-                  return "DIRECT";
-
-//        Specific destinations can be bypassed here. Example lines for host, and
-//        domain provided. Replace with your specific information. Add internal 
-//        domains that cannot be publicly resolved here.
-
-//         if (isPlainHostName(host) || (host == "host.example.com") ||
-//               shExpMatch(host, "*.example.com"))
-//             return "DIRECT";
-
-//        Some RCAP URLs bypassed from proxy 		
-	 if  ((shExpMatch(host, "sts01*")) ||
-	      (shExpMatch(host, "*.digicert.com*")) ||
-	      (shExpMatch(host, "d32a6ru7mhaq0c.cloudfront.net")) ||
-		  (shExpMatch(host, "*cso01*")) )
-		{return "DIRECT";}
+    if (isPlainHostName(host) ||
+        shExpMatch(host, "*.reliancecapital.com") ||
+        shExpMatch(host, "*.internal.company.com") ||
+        shExpMatch(host, "intranet") ||
+        shExpMatch(host, "intranet.company.com")) {
+        return "DIRECT";
+    }
 
 //	     Bypass Reliance Capital Specific traffic completely from Zscaler
 	 if 	((shExpMatch(host, "tlu.dl.delivery.mp.microsoft.com")) ||
@@ -101,66 +71,18 @@ function FindProxyForURL(url, host) {
 		 (shExpMatch(host, "rarcl.com")) )
 		 {return "DIRECT";}
 
-   
-  //      if (shExpMatch(host,"*.office365.com")) 
- //       {
- //           return "PROXY 167.103.19.193:80;PROXY 165.225.120.44:80;DIRECT";  
- //       }
 
- //       if (shExpMatch(host,"*.microsoftonline.com")) 
-  //      {
-//            return "PROXY 167.103.19.193:80;PROXY 165.225.120.44:80;DIRECT";  
-  //      }
+    // === Zscaler infra that must be DIRECT (only basic diagnostics like gateway) ===
+    if (shExpMatch(host, "gateway.zscloud.net") ||
+        shExpMatch(host, "admin.zscaler.net") ||
+        shExpMatch(host, "sfc.zscloud.net") ||
+        shExpMatch(host, "sfc_lu.zscloud.net") ||
+        shExpMatch(host, "*.zscloud.net") ||
+        shExpMatch(host, "*.zscaler.net"))
+{
+        return "PROXY 165.225.120.42:80; PROXY 165.225.122.42:80; PROXY 165.225.120.42:9400; PROXY 165.225.122.42:9400; DIRECT";
+    }
 
-//        If you have a website that is hosted both internally and externally,
-//        and you want to bypass proxy for internal version only, use the following
-
-//        if (shExpMatch(host, "internal.example.com"))
-//        {
-//                var resolved_ip = dnsResolve(host);
-//                if (privateIP.test(resolved_ip))
-//                        return "DIRECT";
-//        }
-
-//        ====== Section II ==== Special Bypasses for SAML============================== 
-
-//        if (shExpMatch(host, "*.okta.com") || shExpMatch(host, "*.oktacdn.com"))
-//                return "DIRECT";
-                
-//        if (shExpMatch(host, "my_iwa_server.my_example_domain.com"))
-//                return "DIRECT";
-
-//        ====== Section III ==== Bypasses for other protocols ============================
-
-//        Send everything other than HTTP and HTTPS direct
-//        Uncomment middle line if FTP over HTTP is enabled
-
-   
-		 
-          if ((url.substring(0,5) != "http:") &&
-                  (url.substring(0,4) != "ftp:") &&
-                  (url.substring(0,6) != "https:"))
-                  return "DIRECT";
-
-//        ====== Section IV ==== Bypasses for Zscaler ===================================
-
-//        Go direct for queries about Zscaler infrastructure status 
-
-          var trust = /^(trust|ips).(zscaler|zscalerone|zscalertwo|zscalerthree|zscalergov|zscloud).(com|net)$/;
-          if (trust.test(host)) 
-                  return "DIRECT";
-
-//        ====== Section V ==== Bypasses for ZPA ===================================
-		  /* test with ZPA*/
-		  if (isInNet(resolved_ip, "100.64.0.0","255.255.0.0"))
-			  return "DIRECT";
-	
-//        ====== Section VI ==== DEFAULT FORWARDING ================================ 
-
-//        If your company has purchased dedicated port, kindly use that in this file.
-//        Port 9400 is the default port followed by 80. If that does not resolve, we send directly:
-        
- //          return "PROXY 165.225.120.44:80; PROXY 167.103.19.193:80; PROXY 165.225.120.44:9400; PROXY 167.103.19.193:9400; DIRECT";
- //         return "PROXY 165.225.122.42:80; PROXY 165.225.124.42:80; PROXY 165.225.122.42:9400; PROXY 165.225.124.42:9400; DIRECT";
-             return "PROXY 165.225.120.42:9443; PROXY 165.225.122.42:9443; PROXY 165.225.120.42:9400; PROXY 165.225.122.42:9400; DIRECT";
+    // === Everything else — including login.zscloud.net — goes via Zscaler ===
+    return "PROXY 165.225.120.42:9443; PROXY 165.225.122.42:9443; PROXY 165.225.120.42:9400; PROXY 165.225.122.42:9400; DIRECT";
 }
