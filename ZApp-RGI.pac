@@ -5,9 +5,7 @@ function FindProxyForURL(url, host) {
 
     if (isPlainHostName(host) ||
         shExpMatch(host, "*.reliancecapital.com") ||
-        shExpMatch(host, "*.internal.company.com") ||
-        shExpMatch(host, "intranet") ||
-        shExpMatch(host, "intranet.company.com")) {
+        shExpMatch(host, "*.rcap.co.in")) {
         return "DIRECT";
     }
 
