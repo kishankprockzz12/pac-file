@@ -84,5 +84,5 @@ function FindProxyForURL(url, host) {
     }
 
     // === Everything else — including login.zscloud.net — goes via Zscaler ===
-    return "PROXY 165.225.120.42:9443; PROXY 165.225.122.42:9443; PROXY 165.225.120.42:9400; PROXY 165.225.122.42:9400; DIRECT";
+    return "PROXY 165.225.120.42:9443; PROXY 165.225.122.42:9443; PROXY 165.225.120.42:9443; PROXY 165.225.122.42:9443; DIRECT";
 }
