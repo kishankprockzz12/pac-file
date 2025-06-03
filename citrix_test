@@ -1,0 +1,2 @@
+
+(HTTP.REQ.HEADER("User-Agent").CONTAINS("CitrixReceiver/CitrixVPN") || HTTP.REQ.HEADER("User-Agent").CONTAINS("CitrixReceiver/NSGiOSplugin") || AAA.USER.IS_MEMBER_OF("RGI_CEM_iOS")) && HTTP.REQ.HEADER("Referer").EXISTS.NOT
