@@ -1,3 +1,4 @@
+
 function FindProxyForURL(url, host) {
     // === Intranet Traffic - Bypass Proxy ===
     var isPrivateIP = /^(10\\.|192\\.168\\.|172\\.(1[6-9]|2[0-9]|3[0-1])\\.)/;
@@ -10,6 +11,12 @@ function FindProxyForURL(url, host) {
         shExpMatch(host, "intranet.company.com")) {
         return "DIRECT";
     }
+//        Some RCAP URLs bypassed from proxy 		
+	 if  ((shExpMatch(host, "sts01*")) ||
+	      (shExpMatch(host, "*.digicert.com*")) ||
+	      (shExpMatch(host, "d32a6ru7mhaq0c.cloudfront.net")) ||
+		  (shExpMatch(host, "*cso01*")) )
+		{return "DIRECT";}
 
 //	     Bypass Reliance Capital Specific traffic completely from Zscaler
 	 if 	((shExpMatch(host, "tlu.dl.delivery.mp.microsoft.com")) ||
@@ -70,6 +77,12 @@ function FindProxyForURL(url, host) {
 		 (shExpMatch(host, "policy.haritaib.com")) ||
 		 (shExpMatch(host, "rarcl.com")) )
 		 {return "DIRECT";}
+
+if ((url.substring(0,5) != "http:") &&
+                  (url.substring(0,4) != "ftp:") &&
+                  (url.substring(0,6) != "https:"))
+                  return "DIRECT";
+
 
 
     // === Zscaler infra that must be DIRECT (only basic diagnostics like gateway) ===
