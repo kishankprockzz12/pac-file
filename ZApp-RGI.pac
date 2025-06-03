@@ -82,7 +82,9 @@ if ((url.substring(0,5) != "http:") &&
                   (url.substring(0,4) != "ftp:") &&
                   (url.substring(0,6) != "https:"))
                   return "DIRECT";
-
+if (shExpMatch(host, "ip.zscaler.com")) {
+    return "PROXY 165.225.120.42:80; PROXY 165.225.122.42:80; DIRECT";
+}
 
 
     // === Zscaler infra that must be DIRECT (only basic diagnostics like gateway) ===
