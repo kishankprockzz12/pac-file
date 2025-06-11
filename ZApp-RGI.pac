@@ -40,13 +40,13 @@ function FindProxyForURL(url, host) {
 
 	/* for users of Canada if you want to direct traffic to only canada gateways*/
 //	if (shExpMatch(country, "Canada")) {
-//	 	return "PROXY 165.225.120.45:80; PROXY 167.103.19.194:80;DIRECT";
+//	 	return "PROXY 165.225.120.46:80; PROXY 167.103.19.195:80;DIRECT";
 //	}
 
 	/* for all users if you want to direct traffic to country gateways by default */
-//	return "PROXY 165.225.120.45:80; PROXY 167.103.19.194:80;DIRECT";
+//	return "PROXY 165.225.120.46:80; PROXY 167.103.19.195:80;DIRECT";
 
 
     /* Default Traffic Forwarding. Forwarding to Zen on port 80, but you can use port 9400 also */
-    return "PROXY 165.225.120.45:443; PROXY 167.103.19.194:443; DIRECT";
+    return "PROXY 165.225.120.46:443; PROXY 167.103.19.195:443; DIRECT";
 }
